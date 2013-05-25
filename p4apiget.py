@@ -88,7 +88,7 @@ def extract(filename, path = '.'):
 
     tar.close()
 
-    return dirname
+    return os.path.join(path, dirname)
 
 
 def get_p4api_path():
