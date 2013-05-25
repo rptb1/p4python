@@ -38,7 +38,7 @@ def download(paths, path = '.'):
 
     for remote_path in paths:
         filename = remote_path.rsplit("/", 1)[1]
-        print "Downloading %s..." % filename
+        print "Downloading Perforce API from %s..." % filename
         ftp.retrbinary("RETR %s" % remote_path,
                        open(os.path.join(path, filename), "wb").write)
 
@@ -50,7 +50,7 @@ def extract(filename, path = '.'):
     Extracts a tarball into the current directory, and returns the directory
     name where the files were extracted.
     """
-    print "Extracting %s..." % filename
+    print "Extracting Perforce API from %s..." % filename
     tar = tarfile.open(filename, "r:gz")
     dirname = tar.getnames()[0].rstrip("/")
 
@@ -130,8 +130,10 @@ def get_p4api_path():
 
         if freebsd_major == 5:
             osname += "54"
-        elif freebsd_major >= 6:
+        elif freebsd_major == 6:
             osname += "60"
+        elif freebsd_major >= 7:
+            osname += "70"
         else:
             sys.stderr.write("Unsupported FreeBSD version: %s" % freebsd_ver)
             sys.exit(1)
