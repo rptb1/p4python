@@ -383,6 +383,7 @@ def do_setup(p4_api_dir, ssl):
                         )])
 
 def get_api_dir():
+  p4_api_dir = None
   if '--apidir' in sys.argv:
     index = sys.argv.index("--apidir")
     if index < len(sys.argv) - 1:
@@ -391,17 +392,23 @@ def get_api_dir():
     else:
       print ("Error: --apidir needs API dir as an argument")
       sys.exit(99)
-  else:
+  if not p4_api_dir:
     config = ConfigParser()
     config.read(P4_CONFIG_FILE)
     p4_api_dir = None
     if config.has_section(P4_CONFIG_SECTION):
         if config.has_option(P4_CONFIG_SECTION, P4_CONFIG_P4APIDIR):
             p4_api_dir = config.get(P4_CONFIG_SECTION, P4_CONFIG_P4APIDIR)
-    if not p4_api_dir:
-        print ("Error: %s section in setup.cfg needs option %s set to the directory containing the perforce API!" % (
-            P4_CONFIG_SECTION, P4_CONFIG_P4APIDIR))
-        sys.exit(100)
+  if not p4_api_dir:
+    try:
+      import p4apiget
+      p4_api_dir = p4apiget.get_p4api()
+    except Exception as exn:
+      print ("Error: Unable to download API:", repr(exn))
+  if not p4_api_dir:
+      print ("Error: %s section in setup.cfg needs option %s set to the directory containing the perforce API!" % (
+          P4_CONFIG_SECTION, P4_CONFIG_P4APIDIR))
+      sys.exit(100)
 
   return p4_api_dir
 
