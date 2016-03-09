@@ -1,5 +1,18 @@
+========
 P4Python
 ========
+
+:Author: Richard Brooksby <rb@ravenbrook.com>
+:Organization: Ravenbrook Limited <http://www.ravenbrook.com/>
+
+.. note::
+
+    This repository is obsolete.  Perforce Software support pip
+    installation themselves starting at version 2016.1.  Just try::
+
+        pip install p4python
+
+    Thank you, Perforce!
 
 This is P4Python, the Python interface to the Perforce API , enables you
 to write Python code that interacts with a Perforce server.  For details,
